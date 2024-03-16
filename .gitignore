@@ -4,3 +4,7 @@ mongo_data/
 redis_data/
 config.json
 serverconfig.cfg
+
+API/
+Networking/
+Web/
