@@ -46,11 +46,16 @@ services:
     networks:
       - backend
 
-  hypernex_api:
-    container_name: hypernex_api
+  hypernex-api:
+    container_name: hypernex-api
     build:
       context: ./
       dockerfile: ./Dockerfile-Api
+    healthcheck:
+      test: curl -f http://localhost || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
     restart: always
     expose:
       - 80
@@ -66,8 +71,8 @@ services:
       - backend
       - frontend
 
-  hypernex_server:
-    container_name: hypernex_server
+  hypernex-server:
+    container_name: hypernex-server
     build:
       context: ./
       dockerfile: ./Dockerfile-Server
@@ -79,6 +84,7 @@ services:
       - 5000-5010:5000-5010/tcp
       - 5000-5010:5000-5010/udp
     depends_on:
-      - hypernex_api
+      hypernex-api:
+        condition: service_healthy
     networks:
       - frontend
