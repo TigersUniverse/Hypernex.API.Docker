@@ -1,0 +1,19 @@
+FROM ubuntu:22.04
+
+EXPOSE 80/tcp
+EXPOSE 2096/tcp
+EXPOSE 2096/udp
+
+RUN apt update
+RUN apt install -y lsb-release curl gpg gnupg
+
+# NodeJS
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt install -y nodejs
+
+# Hypernex.API
+ADD ./API /opt/API
+ADD ./Web /opt/Web
+WORKDIR /opt/API
+RUN npm install -y
+ADD ./config.json /opt/API/config.json
+CMD node ./main.js

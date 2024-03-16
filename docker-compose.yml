@@ -1,0 +1,84 @@
+version: '3'
+
+networks:
+  backend:
+    name: Backend
+  frontend:
+    name: Frontend
+
+services:
+  minio-server:
+    image: quay.io/minio/minio:latest
+    restart: always
+    volumes:
+      - ./minio_data:/data
+    expose:
+      - 9000
+      - 9001
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: server /data --address ":9000" --console-address ":9001"
+    networks:
+      - backend
+
+  mongodb-server:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongo_data:/data/db
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+
+  redis-server:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./redis_data:/data
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+
+  hypernex_api:
+    container_name: hypernex_api
+    build:
+      context: ./
+      dockerfile: ./Dockerfile-Api
+    restart: always
+    expose:
+      - 80
+      - 2096
+    ports:
+      - 80:80
+      - 2096:2096
+    depends_on:
+      - minio-server
+      - mongodb-server
+      - redis-server
+    networks:
+      - backend
+      - frontend
+
+  hypernex_server:
+    container_name: hypernex_server
+    build:
+      context: ./
+      dockerfile: ./Dockerfile-Server
+    restart: always
+    expose:
+      - 5000-5010/tcp
+      - 5000-5010/udp
+    ports:
+      - 5000-5010:5000-5010/tcp
+      - 5000-5010:5000-5010/udp
+    depends_on:
+      - hypernex_api
+    networks:
+      - frontend

@@ -1,0 +1,6 @@
+.vscode/
+minio_data/
+mongo_data/
+redis_data/
+config.json
+serverconfig.cfg
