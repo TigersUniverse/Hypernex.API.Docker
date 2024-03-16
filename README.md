@@ -56,7 +56,7 @@ Create a `config.json` for the Web API config. Example:
     "SpacesInfo": {
         "AccessKeyId": "<access key from minio>",
         "SecretAccessKey": "<secret access key from minio>",
-        "Region": "<minio access key>",
+        "Region": "<minio server region>",
         "SpaceName": "<minio bucket name>",
         "ConnectionURL": "http://minio-server:9000" // !!DO NOT change!!
     },
