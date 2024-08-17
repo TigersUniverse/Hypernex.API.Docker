@@ -16,5 +16,4 @@ ENV PATH $PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 # Hypernex.Networking.Server
 ADD ./Networking /opt
 WORKDIR /opt
-ADD ./serverconfig.cfg /opt/serverconfig.cfg
 CMD dotnet run --project Hypernex.Networking.Server/Hypernex.Networking.Server.csproj -f net7.0

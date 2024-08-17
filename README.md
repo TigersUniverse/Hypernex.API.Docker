@@ -3,7 +3,7 @@
 ## Notes
 
 - This is mainly for use on local/development/single-node servers.
-- - Minio is configured to use a default username and password. This can be changed in `docker-compose.yml` via environment variables. See Minio's documentation.
+- - Minio is configured to use a default username and password. This can be changed in `docker-compose.yml` via the environment variables. See Minio's documentation if needed.
 - This will setup (almost) everything for you in one docker compose file.
 - Port `80`, `2096`, `5000-5010`, `6379`, `27017`, `9000`, `9001` will be used by default.
 
@@ -30,102 +30,26 @@ git clone https://github.com/TigersUniverse/Hypernex.Web.git Web
 
 ## Configs Part 1
 
-Change everything inside `<` and `>` brackets that you can, some configs will need to be filled in later in the guide.
+Change everything inside `<` and `>` brackets that you can. All configs go inside the `configs` folder next to this `README.md`. You may need to create the `configs` folder.
 
 ### Web API
 
-Create a `config.json` for the Web API config. Example:
+Create a `config.json` for the Web API config in the `configs` folder. A template/example can be found in `configs/example.config.json`.
 
-```json
-{
-    "BaseURL": "http://localhost",
-    "DatabaseInfo": {
-        "DatabaseNumber": 0,
-        "Host": "redis-server", // !!DO NOT change!!
-        "Port": 6379,
-        "Username": "",
-        "Password": "",
-        "UseDatabaseTLS": false,
-        "DatabaseTLS": {
-            "TLSKeyLocation": "",
-            "TLSCertificateLocation": "",
-            "TLSCALocation": ""
-        }
-    },
-    "MongoDBURL": "mongodb://mongodb-server", // !!DO NOT change!!
-    "SpacesInfo": {
-        "AccessKeyId": "<access key from minio>",
-        "SecretAccessKey": "<secret access key from minio>",
-        "Region": "<minio server region>",
-        "SpaceName": "<minio bucket name>",
-        "ConnectionURL": "http://minio-server:9000" // !!DO NOT change!!
-    },
-    "MaxFileSize": 1000,
-    "TrustAllDomains": false,
-    "AllowedDomains": [],
-    "UseHTTPS": false,
-    "HTTPSTLS": {
-        "TLSKeyLocation": "",
-        "TLSCertificateLocation": ""
-    },
-    "SocketPort": 2096,
-    "WebRoot": "../Web",
-    "HTMLPaths": {
-        "EmailVerificationPath": "emailhtml/verifyEmail.html",
-        "ResetPasswordPath": "emailhtml/resetPassword.html"
-    },
-    "SignupRules": {
-        "RequireInviteCode": false,
-        "GlobalInviteCodes": [],
-        "RemoveCodeAfterUse": true
-    },
-    "AVSettings":{
-        "ScanFiles": false,
-        "clamdPort": null,
-        "clamdHost": null,
-        "clamdTimeout": null,
-        "clamdHealthCheckInterval": null
-    },
-    "GameServerTokens": ["<random token for game servers>"],
-    "AllowAnyGameServer": false,
-    "RequireTokenToDownloadBuilds": false,
-    "GameEngine": "Unity",
-    "GameEngineVersion": "2023.1.10f1"
-}
-```
+Be sure to remove the `// !!DO NOT change!!` from the `config.json` to prevent loading errors.
+
+If you are using Godot as the Game Engine, use the full release tag in the release name. Example:
+
+- `4.3-stable` -> `https://github.com/godotengine/godot-builds/releases/tag/4.3-stable`
+- `4.2.2-stable` -> `https://github.com/godotengine/godot-builds/releases/tag/4.2.2-stable`
 
 ### Networking Server
 
-Create a `serverconfig.cfg` for the Networking Server config. Example:
-
-```toml
-# The server domain to connect to
-ServerDomain = "hypernex-api" # !!DO NOT change!!
-# Defines if the Server is HTTP
-IsServerHTTP = true # !!DO NOT change!!
-# Defines if the Server is WS
-IsServerWS = "v1"
-# GameServer Token; leave Empty if one isn't needed
-GameServerToken = "<random token for game servers>"
-# The Local IP Address for servers to run on
-LocalIp = "0.0.0.0"
-# The IP to be shared to the Socket Server
-GlobalIp = "127.0.0.1"
-# Beginning Port Range for GameServer's Instances
-BeginPortRange = 5000
-# Ending Port Range for GameServer's Instances
-EndPortRange = 5010
-# Have Instances use multiple Threads (recommended on)
-UseMultithreading = true
-# Time for threads to update (in ms)
-ThreadUpdate = 10
-# Allow IPs from IPV6 to connect
-UseIPV6 = false
-```
+Create a `serverconfig.cfg` for the Networking Server config in the `configs` folder. A template/example can be found in `configs/example.serverconfig.cfg`.
 
 ## Building
 
-Build the Docker images
+Build the Docker images (this will take some time on first run)
 ```bash
 docker compose build
 ```
@@ -143,16 +67,18 @@ With the server running, visit the server with the port `9001` in a web browser.
 
 Login with the username and password (default is `minioadmin` and `minioadmin`).
 
-Create a bucket with default settings and use the name in the `config.json` file.
+Create a bucket with default settings and use the name in the `configs/config.json` file.
 
-Create an access key with default settings and use the `Access Key` and `Secret Key` in `config.json`
+Create an access key with default settings and use the `Access Key` and `Secret Key` in `configs/config.json`
 
-Change Server location in the `Configuration -> Region -> Server Location` tab and `config.json`.
+Change Server location in the `Configuration -> Region -> Server Location` tab and `configs/config.json`.
 
-## Rebuild and restart the Docker Images and Containers
+### Restart the Docker Containers
 
 ```bash
-docker compose down
-docker compose build
-docker compose up -d
+docker compose restart
 ```
+
+## Final Notes
+
+That's it! You should be all setup and ready to go!

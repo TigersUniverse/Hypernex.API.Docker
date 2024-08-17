@@ -15,5 +15,4 @@ ADD ./API /opt/API
 ADD ./Web /opt/Web
 WORKDIR /opt/API
 RUN npm install -y
-ADD ./config.json /opt/API/config.json
 CMD node ./main.js

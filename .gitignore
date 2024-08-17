@@ -1,4 +1,7 @@
 .vscode/
+builds/
+configs/config.json
+configs/serverconfig.cfg
 minio_data/
 mongo_data/
 redis_data/

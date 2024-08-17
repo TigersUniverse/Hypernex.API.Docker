@@ -1,0 +1,55 @@
+{
+    "BaseURL": "http://127.0.0.1",
+    "DatabaseInfo": {
+        "DatabaseNumber": 0,
+        "Host": "redis-server", // !!DO NOT change!!
+        "Port": 6379,
+        "Username": "",
+        "Password": "",
+        "UseDatabaseTLS": false,
+        "DatabaseTLS": {
+            "TLSKeyLocation": "",
+            "TLSCertificateLocation": "",
+            "TLSCALocation": ""
+        }
+    },
+    "MongoDBURL": "mongodb://mongodb-server", // !!DO NOT change!!
+    "SpacesInfo": {
+        "AccessKeyId": "<access key from minio>",
+        "SecretAccessKey": "<secret access key from minio>",
+        "Region": "<minio server region>",
+        "SpaceName": "<minio bucket name>",
+        "ConnectionURL": "http://minio-server:9000" // !!DO NOT change!!
+    },
+    "MaxFileSize": 1000,
+    "TrustAllDomains": false,
+    "AllowedDomains": [],
+    "UseHTTPS": false,
+    "HTTPSTLS": {
+        "TLSKeyLocation": "",
+        "TLSCertificateLocation": ""
+    },
+    "SocketPort": 2096,
+    "WebRoot": "../Web",
+    "HTMLPaths": {
+        "EmailVerificationPath": "emailhtml/verifyEmail.html",
+        "ResetPasswordPath": "emailhtml/resetPassword.html"
+    },
+    "SignupRules": {
+        "RequireInviteCode": false,
+        "GlobalInviteCodes": [],
+        "RemoveCodeAfterUse": true
+    },
+    "AVSettings":{
+        "ScanFiles": false,
+        "clamdPort": null,
+        "clamdHost": null,
+        "clamdTimeout": null,
+        "clamdHealthCheckInterval": null
+    },
+    "GameServerTokens": ["<random token for game servers>"],
+    "AllowAnyGameServer": false,
+    "RequireTokenToDownloadBuilds": false,
+    "GameEngine": "Unity",
+    "GameEngineVersion": "2023.1.10f1"
+}
